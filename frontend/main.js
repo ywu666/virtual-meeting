@@ -2,6 +2,10 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { Clock } from "three/src/core/Clock";
+
+var clock = new THREE.Clock();
+let mixer;
 
 //Sound
 const nightAudio = new Audio("./resources/mixkit-forest-at-night-1224.wav");
@@ -11,8 +15,8 @@ fireAudio.loop = true;
 nightAudio.volume = 0.2;
 fireAudio.volume = 1;
 //comment out to remove audio
-// nightAudio.play();
-// fireAudio.play();
+nightAudio.play();
+fireAudio.play();
 
 const scene = new THREE.Scene();
 
@@ -52,8 +56,28 @@ loader.load(
   "./resources/autumn_forest_camp/scene.gltf",
   function (gltf) {
     const camp = gltf.scene;
+    console.log(camp);
     camp.scale.set(100, 100, 100);
     scene.add(camp);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
+
+loader.load(
+  "./resources/campfire/scene.gltf",
+  (gltf) => {
+    const campFire = gltf.scene;
+    const animations = gltf.animations;
+    campFire.scale.set(40, 40, 40);
+    campFire.translateY(70);
+    campFire.translateX(350);
+    mixer = new THREE.AnimationMixer(campFire);
+    const action = mixer.clipAction(animations[0]);
+    action.play();
+    scene.add(campFire);
   },
   undefined,
   function (error) {
@@ -64,7 +88,7 @@ loader.load(
 // Lights
 
 const pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(5, 5, 5);
+pointLight.position.set(5, 105, 5);
 
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(pointLight, ambientLight);
@@ -116,6 +140,9 @@ scene.add(skybox);
 
 function animate() {
   requestAnimationFrame(animate);
+
+  const delta = clock.getDelta();
+  mixer.update(delta);
 
   controls.update();
   //prevents camera from looking below the ground
