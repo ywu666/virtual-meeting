@@ -53,10 +53,27 @@ const loader = new GLTFLoader();
 // );
 
 loader.load(
-  "./resources/autumn_forest_camp/scene.gltf",
+  "./resources/forest_nofire/scene.gltf",
   function (gltf) {
     const camp = gltf.scene;
     console.log(camp);
+    const fireArray = [
+      camp.getObjectByName("Icosphere"),
+      camp.getObjectByName("Icosphere001"),
+      camp.getObjectByName("Icosphere002"),
+      camp.getObjectByName("Icosphere003"),
+      camp.getObjectByName("Icosphere004"),
+      camp.getObjectByName("Icosphere005"),
+      camp.getObjectByName("Icosphere006"),
+      camp.getObjectByName("Icosphere007"),
+      camp.getObjectByName("Icosphere008"),
+      camp.getObjectByName("Icosphere009"),
+      camp.getObjectByName("Icosphere010"),
+      camp.getObjectByName("Plane002"),
+      camp.getObjectByName("Plane009"),
+    ];
+    fireArray.forEach((stone) => (stone.visible = false));
+
     camp.scale.set(100, 100, 100);
     scene.add(camp);
   },
@@ -72,8 +89,9 @@ loader.load(
     const campFire = gltf.scene;
     const animations = gltf.animations;
     campFire.scale.set(40, 40, 40);
-    campFire.translateY(70);
+    campFire.translateY(50);
     campFire.translateX(350);
+    campFire.translateZ(-50);
     mixer = new THREE.AnimationMixer(campFire);
     const action = mixer.clipAction(animations[0]);
     action.play();
