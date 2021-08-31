@@ -1,0 +1,11 @@
+Model Information:
+* title:	Autumn forest camp
+* source:	https://sketchfab.com/3d-models/autumn-forest-camp-b4fec3fef5c546caa37c09ac164d37a4
+* author:	punolix (https://sketchfab.com/punolix.123)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Autumn forest camp" (https://sketchfab.com/3d-models/autumn-forest-camp-b4fec3fef5c546caa37c09ac164d37a4) by punolix (https://sketchfab.com/punolix.123) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
