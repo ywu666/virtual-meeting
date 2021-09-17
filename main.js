@@ -1,5 +1,4 @@
 import "./style.css";
-// import { addAvatar } from "./scene";
 
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -69,8 +68,6 @@ async function webcamOnclick() {
   callButton.disabled = false;
   answerButton.disabled = false;
   webcamButton.disabled = true;
-
-  // addAvatar();
 }
 
 webcamButton.addEventListener("click", webcamOnclick);
