@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap");
+
+/* body {
+  font-family: "Syne Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin: 80px 10px;
+}
+
+video {
+  width: 40vw;
+  height: 30vw;
+  margin: 2rem;
+  background: #2c3e50;
+}
+
+.videos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.videos {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
+
+video {
+  width: 20vw;
+  height: 15vw;
+  margin: 2rem;
+  display: none;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#controls {
+  position: absolute;
+  z-index: 2;
+  bottom: 50px;
+  left: 100px;
+}
+
+input {
+  height: 2em;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+button {
+  display: inline-block;
+  border: 1px solid #804000;
+  background: linear-gradient(to bottom, #ff8000, #fa6900);
+  padding: 8px 30px;
+  color: #eee;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: Segoe UI;
+  transition: all 0.05s linear, background-color 0.1s linear, color 0.1s linear;
+  box-shadow: 0 7px 0 #804000;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+button:disabled {
+  background: linear-gradient(to bottom, #9c7e5f, #bba17f);
+  color: #fff;
+  box-shadow: 0 0px 0 #000000;
+}
+
+button:hover:enabled {
+  background: linear-gradient(to bottom, #ff8000, #ff9000);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:active:enabled {
+  margin-top: 3px;
+  box-shadow: 0 4px 0 #804000;
+}
