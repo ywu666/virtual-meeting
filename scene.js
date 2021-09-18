@@ -22,10 +22,11 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  45,
+  1,
   30000
 );
 camera.position.set(-900, 100, -900);
+console.log(camera.position)
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#bg"),
@@ -179,16 +180,46 @@ function addAvatar() {
       const animations = gltf.animations;
       mixer = new THREE.AnimationMixer(chars);
       console.log(animations);
+      console.log('robot: ',gltf)
       const action = mixer.clipAction(animations[12]);
       action.play();
 
-      chars.scale.set(20, 20, 20);
+      chars.scale.set(30, 30, 30);
 
       chars.translateY(0);
       chars.translateX(350);
       chars.translateZ(-200);
 
       scene.add(chars);
+      console.log(chars.position)
+
+      //camera.position.set(0,350,-200);
+      console.log(camera)
+
+      const currentPosition = new THREE.Vector3();
+      const currentLookat = new THREE.Vector3();
+
+      //calculate current position
+      const idealOffset = new THREE.Vector3(50, 150, -150);
+      idealOffset.applyQuaternion(chars.quaternion);
+      idealOffset.add(chars.position);
+
+      //calculate current look at
+      const idealLookat = new THREE.Vector3(0, 20, 200);
+      idealLookat.applyQuaternion(chars.quaternion);
+      idealLookat.add(chars.position);
+      console.log(idealLookat);
+      console.log(idealOffset);
+
+      currentPosition.lerp(idealOffset, 1);
+      currentLookat.lerp(idealLookat, 1);
+      console.log(currentPosition)
+      console.log(currentLookat)
+
+      camera.position.copy(currentPosition);
+      camera.lookAt(currentLookat)
+
+
     },
     undefined,
     function (error) {
