@@ -1,8 +1,7 @@
-import "./style.css";
+// import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { Clock } from "three/src/core/Clock";
 
 var clock = new THREE.Clock();
 let mixer;
@@ -106,7 +105,7 @@ loader.load(
 // Lights
 
 const pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(5, 105, 5);
+pointLight.position.set(5, 105, 500);
 
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(pointLight, ambientLight);
@@ -168,5 +167,64 @@ function animate() {
 
   renderer.render(scene, camera);
 }
+
+const webcamButton = document.getElementById("webcamButton");
+const answerButton = document.getElementById("answerButton");
+
+function addAvatar() {
+  loader.load(
+    "./resources/robot_expressive/scene.gltf",
+    (gltf) => {
+      const chars = gltf.scene;
+      const animations = gltf.animations;
+      mixer = new THREE.AnimationMixer(chars);
+      console.log(animations);
+      const action = mixer.clipAction(animations[12]);
+      action.play();
+
+      chars.scale.set(20, 20, 20);
+
+      chars.translateY(0);
+      chars.translateX(350);
+      chars.translateZ(-200);
+
+      scene.add(chars);
+    },
+    undefined,
+    function (error) {
+      console.error(error);
+    }
+  );
+}
+
+webcamButton.addEventListener("click", addAvatar);
+
+function add2Avatar() {
+  loader.load(
+    "./resources/robot_expressive/scene.gltf",
+    (gltf) => {
+      const chars = gltf.scene;
+      const animations = gltf.animations;
+      mixer = new THREE.AnimationMixer(chars);
+      console.log(animations);
+      const action = mixer.clipAction(animations[12]);
+      action.play();
+
+      chars.scale.set(20, 20, 20);
+
+      chars.translateY(0);
+      chars.translateX(350);
+      chars.translateZ(90);
+      chars.lookAt(50, 50, -900);
+      scene.add(chars);
+    },
+    undefined,
+    function (error) {
+      console.error(error);
+    }
+  );
+}
+
+answerButton.addEventListener("click", add2Avatar);
 
 animate();

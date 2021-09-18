@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VirtuMeet</title>
+  </head>
+  <body>
+
+    <canvas id="bg"></canvas>
+    <script type="module" src="./scene.js"></script>
+
+    <div class="videos">
+      <video id="webcamVideo" autoplay playsinline onclick="test() "></video>
+      <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+
+    <div id="controls">
+      <button id="webcamButton">Webcam</button>
+      <button id="callButton" disabled>Generate Code</button>
+      <input id="callInput" />
+      <button id="answerButton" disabled>Input Code</button>
+    </div>
+
+    <script type="module" src="/main.js"></script> 
+
+  </body>
+</html>

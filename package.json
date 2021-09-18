@@ -1,5 +1,5 @@
 {
-  "name": "virtumeeting",
+  "name": "webrtc-demo",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -7,9 +7,10 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "vite": "^2.5.1"
+    "vite": "^2.0.5"
   },
   "dependencies": {
+    "firebase": "^8.2.10",
     "three": "^0.132.2"
   }
 }
