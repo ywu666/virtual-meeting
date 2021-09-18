@@ -22,11 +22,10 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  1,
-  30000
+  45,
+  10000
 );
 camera.position.set(-900, 100, -900);
-console.log(camera.position)
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector("#bg"),
@@ -200,12 +199,12 @@ function addAvatar() {
       const currentLookat = new THREE.Vector3();
 
       //calculate current position
-      const idealOffset = new THREE.Vector3(50, 150, -150);
+      const idealOffset = new THREE.Vector3(0, 120, -300);
       idealOffset.applyQuaternion(chars.quaternion);
       idealOffset.add(chars.position);
 
       //calculate current look at
-      const idealLookat = new THREE.Vector3(0, 20, 200);
+      const idealLookat = new THREE.Vector3(0, 100, 100);
       idealLookat.applyQuaternion(chars.quaternion);
       idealLookat.add(chars.position);
       console.log(idealLookat);
