@@ -4,21 +4,29 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 let myMesh;
 
 function createEnvironment(scene) {
-  console.log("Adding environment");
+  //Background
 
-  let texture = new THREE.TextureLoader().load("../assets/texture.png");
-  let myGeometry = new THREE.SphereGeometry(3, 12, 12);
-  let myMaterial = new THREE.MeshBasicMaterial({ map: texture });
-  myMesh = new THREE.Mesh(myGeometry, myMaterial);
-  myMesh.position.set(5, 2, 5);
-  scene.add(myMesh);
-}
+  let materialArray = [];
+  let texture_ft = new THREE.TextureLoader().load("./resources/divine_ft.jpg");
+  let texture_bk = new THREE.TextureLoader().load("./resources/divine_bk.jpg");
+  let texture_up = new THREE.TextureLoader().load("./resources/divine_up.jpg");
+  let texture_dn = new THREE.TextureLoader().load("./resources/divine_dn.jpg");
+  let texture_rt = new THREE.TextureLoader().load("./resources/divine_rt.jpg");
+  let texture_lf = new THREE.TextureLoader().load("./resources/divine_lf.jpg");
 
-function updateEnvironment(scene) {
-  // myMesh.position.x += 0.01;
-}
+  materialArray.push(new THREE.MeshBasicMaterial({ map: texture_ft }));
+  materialArray.push(new THREE.MeshBasicMaterial({ map: texture_bk }));
+  materialArray.push(new THREE.MeshBasicMaterial({ map: texture_up }));
+  materialArray.push(new THREE.MeshBasicMaterial({ map: texture_dn }));
+  materialArray.push(new THREE.MeshBasicMaterial({ map: texture_rt }));
+  materialArray.push(new THREE.MeshBasicMaterial({ map: texture_lf }));
 
-function addLoader(scene) {
+  materialArray.forEach((mat) => (mat.side = THREE.BackSide));
+
+  let skyboxGeo = new THREE.BoxGeometry(5000, 5000, 5000);
+  let skybox = new THREE.Mesh(skyboxGeo, materialArray);
+  scene.add(skybox);
+
   const loader = new GLTFLoader();
 
   loader.load(
@@ -41,10 +49,32 @@ function addLoader(scene) {
         camp.getObjectByName("Plane002"),
         camp.getObjectByName("Plane009"),
       ];
-      fireArray.forEach((stone) => (stone.visible = false));
 
-      camp.scale.set(100, 100, 100);
+      fireArray.forEach((stone) => (stone.visible = false));
+      camp.position.set(0, -0.2, 0);
+      camp.scale.set(2, 2, 2);
       scene.add(camp);
+    },
+    undefined,
+    function (error) {
+      console.error(error);
+    }
+  );
+
+  loader.load(
+    "./resources/campfire/scene.gltf",
+    (gltf) => {
+      const campFire = gltf.scene;
+      // const animations = gltf.animations;
+      campFire.scale.set(0.7, 0.7, 0.7);
+      campFire.position.set(7, 1, -1);
+      // campFire.translateY(50);
+      // campFire.translateX(350);
+      // campFire.translateZ(-50);
+      // mixer = new THREE.AnimationMixer(campFire);
+      // const action = mixer.clipAction(animations[0]);
+      // action.play();
+      scene.add(campFire);
     },
     undefined,
     function (error) {
@@ -53,4 +83,8 @@ function addLoader(scene) {
   );
 }
 
-window.addLoader = addLoader;
+function updateEnvironment(scene) {
+  // myMesh.position.x += 0.01;
+}
+
+window.createEnvironment = createEnvironment;

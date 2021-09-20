@@ -18,18 +18,25 @@ class Scene {
 
     //Utility
     this.width = window.innerWidth;
-    this.height = window.innerHeight - 100;
+    this.height = window.innerHeight;
 
     //Add Player
     this.addSelf();
 
     //THREE Camera
+    // this.camera = new THREE.PerspectiveCamera(
+    //   75,
+    //   this.width / this.height,
+    //   0.1,
+    //   30000
+    // );
     this.camera = new THREE.PerspectiveCamera(
       50,
       this.width / this.height,
       0.1,
       5000
     );
+    // this.camera.position.set(-900, 100, -900);
     this.camera.position.set(0, 3, 6);
     this.scene.add(this.camera);
 
@@ -46,6 +53,7 @@ class Scene {
 
     // add controls:
     this.controls = new THREE.PlayerControls(this.camera, this.playerGroup);
+    // this.controls.moveSpeed = 10;
 
     //Push the canvas to the DOM
     let domElement = document.getElementById("canvas-container");
@@ -58,12 +66,10 @@ class Scene {
 
     // Helpers
     // this.scene.add(new THREE.GridHelper(500, 500));
-    this.scene.add(new THREE.AxesHelper(10));
+    // this.scene.add(new THREE.AxesHelper(10));
 
     this.addLights();
-    // createEnvironment(this.scene);
-    // addLoader(this.scene);
-    window.addLoader(this.scene);
+    createEnvironment(this.scene);
 
     // Start the loop
     this.frameCount = 0;
@@ -92,6 +98,7 @@ class Scene {
     // https://threejs.org/docs/index.html#api/en/objects/Group
     this.playerGroup = new THREE.Group();
     this.playerGroup.position.set(0, 0.5, 0);
+    // this.playerGroup.scale.set(50, 50, 50);
     this.playerGroup.add(_head);
 
     // add group to scene
@@ -229,6 +236,9 @@ class Scene {
       this.movementCallback();
     }
 
+    if (this.camera.position.y < 2) {
+      this.camera.position.y = 2;
+    }
     this.interpolatePositions();
     this.controls.update();
     this.render();
