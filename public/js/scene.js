@@ -1,11 +1,8 @@
 /*
  *
- * This uses code from a THREE.js Multiplayer boilerplate made by Or Fleisher:
- * https://github.com/juniorxsound/THREE.Multiplayer
- * And a WEBRTC chat app made by Mikołaj Wargowski:
- * https://github.com/Miczeq22/simple-chat-app
+ * This uses code from a THREE.js Multiplayer solution using WEB-RTC made by Aidan Nelson:
+ * https://github.com/AidanNelson/threejs-webrtc
  *
- * Aidan Nelson, April 2020
  *
  */
 class Scene {
@@ -24,19 +21,12 @@ class Scene {
     this.addSelf();
 
     //THREE Camera
-    // this.camera = new THREE.PerspectiveCamera(
-    //   75,
-    //   this.width / this.height,
-    //   0.1,
-    //   30000
-    // );
     this.camera = new THREE.PerspectiveCamera(
       50,
       this.width / this.height,
       0.1,
       5000
     );
-    // this.camera.position.set(-900, 100, -900);
     this.camera.position.set(0, 3, 6);
     this.scene.add(this.camera);
 
@@ -53,7 +43,6 @@ class Scene {
 
     // add controls:
     this.controls = new THREE.PlayerControls(this.camera, this.playerGroup);
-    // this.controls.moveSpeed = 10;
 
     //Push the canvas to the DOM
     let domElement = document.getElementById("canvas-container");
@@ -63,10 +52,6 @@ class Scene {
     window.addEventListener("resize", (e) => this.onWindowResize(e), false);
     window.addEventListener("keydown", (e) => this.onKeyDown(e), false);
     window.addEventListener("keyup", (e) => this.onKeyUp(e), false);
-
-    // Helpers
-    // this.scene.add(new THREE.GridHelper(500, 500));
-    // this.scene.add(new THREE.AxesHelper(10));
 
     this.addLights();
     createEnvironment(this.scene);
@@ -92,14 +77,13 @@ class Scene {
     let videoMaterial = makeVideoMaterial("local");
 
     let _head = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), videoMaterial);
-
     _head.position.set(0, 0, 0);
 
     // https://threejs.org/docs/index.html#api/en/objects/Group
     this.playerGroup = new THREE.Group();
-    this.playerGroup.position.set(0, 0.5, 0);
-    // this.playerGroup.scale.set(50, 50, 50);
+    this.playerGroup.position.set(3, 2, -0.5);
     this.playerGroup.add(_head);
+    loadAvatar(this.playerGroup);
 
     // add group to scene
     this.scene.add(this.playerGroup);
@@ -117,7 +101,9 @@ class Scene {
 
     // https://threejs.org/docs/index.html#api/en/objects/Group
     var group = new THREE.Group();
+    group.position.set(3, 2, -0.5);
     group.add(_head);
+    loadAvatar(group);
 
     // add group to scene
     this.scene.add(group);

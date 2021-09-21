@@ -2,10 +2,12 @@ import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
 let myMesh;
+const loader = new GLTFLoader();
+let mixer;
+var clock = new THREE.Clock();
 
 function createEnvironment(scene) {
-  //Background
-
+  // Background
   let materialArray = [];
   let texture_ft = new THREE.TextureLoader().load("./resources/divine_ft.jpg");
   let texture_bk = new THREE.TextureLoader().load("./resources/divine_bk.jpg");
@@ -27,13 +29,11 @@ function createEnvironment(scene) {
   let skybox = new THREE.Mesh(skyboxGeo, materialArray);
   scene.add(skybox);
 
-  const loader = new GLTFLoader();
-
+  // Campfire scene
   loader.load(
     "./resources/forest_nofire/scene.gltf",
     function (gltf) {
       const camp = gltf.scene;
-      console.log(camp);
       const fireArray = [
         camp.getObjectByName("Icosphere"),
         camp.getObjectByName("Icosphere001"),
@@ -61,6 +61,7 @@ function createEnvironment(scene) {
     }
   );
 
+  // Campfire
   loader.load(
     "./resources/campfire/scene.gltf",
     (gltf) => {
@@ -68,9 +69,6 @@ function createEnvironment(scene) {
       // const animations = gltf.animations;
       campFire.scale.set(0.7, 0.7, 0.7);
       campFire.position.set(7, 1, -1);
-      // campFire.translateY(50);
-      // campFire.translateX(350);
-      // campFire.translateZ(-50);
       // mixer = new THREE.AnimationMixer(campFire);
       // const action = mixer.clipAction(animations[0]);
       // action.play();
@@ -83,8 +81,42 @@ function createEnvironment(scene) {
   );
 }
 
+function loadAvatar(playerGroup) {
+  let chars;
+  loader.load(
+    "./resources/robot_expressive/scene.gltf",
+    (gltf) => {
+      chars = gltf.scene;
+
+      const animations = gltf.animations;
+      console.log(animations);
+      mixer = new THREE.AnimationMixer(chars);
+      const action = mixer.clipAction(animations[10]);
+      action.reset().play();
+
+      chars.scale.set(0.3, 0.3, 0.3);
+      chars.position.set(0, -2, 0);
+      chars.rotation.y += 3.14;
+      playerGroup.add(chars);
+    },
+    undefined,
+    function (error) {
+      console.error(error);
+    }
+  );
+}
+
+function avatarWalk() {
+  const delta = clock.getDelta();
+  if (typeof mixer !== "undefined") {
+    mixer.update(delta);
+  }
+}
+
 function updateEnvironment(scene) {
   // myMesh.position.x += 0.01;
 }
 
 window.createEnvironment = createEnvironment;
+window.loadAvatar = loadAvatar;
+window.avatarWalk = avatarWalk;
