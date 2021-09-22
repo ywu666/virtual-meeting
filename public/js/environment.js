@@ -92,7 +92,7 @@ function loadAvatar(playerGroup) {
       chars = gltf.scene;
       avatarAnimations = gltf.animations;
       mixer = new THREE.AnimationMixer(chars);
-      activeAction = mixer.clipAction(avatarAnimations[3]);
+      activeAction = mixer.clipAction(avatarAnimations[2]);
       activeAction.play();
 
       if (typeof gui == "undefined") {
