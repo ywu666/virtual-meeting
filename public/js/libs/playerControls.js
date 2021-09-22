@@ -206,7 +206,7 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.sin(this.player.rotation.y);
       this.camera.position.z -=
         this.moveSpeed * Math.cos(this.player.rotation.y);
-      avatarWalk();
+      animateWalk();
     }
 
     if (keyState[40] || keyState[83]) {
@@ -222,7 +222,7 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.sin(this.player.rotation.y);
       this.camera.position.z +=
         this.moveSpeed * Math.cos(this.player.rotation.y);
-      avatarWalk();
+      animateWalk();
     }
 
     if (keyState[37] || keyState[65]) {
@@ -266,6 +266,11 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.cos(this.player.rotation.y);
       this.camera.position.z -=
         this.moveSpeed * Math.sin(this.player.rotation.y);
+    }
+
+    if (Object.values(keyState).every((x) => x === false)) {
+      // avatar is idle
+      animateIdle();
     }
   };
 

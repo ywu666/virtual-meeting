@@ -212,6 +212,7 @@ class Scene {
   // Rendering 🎥
 
   update() {
+    animate();
     requestAnimationFrame(() => this.update());
     this.frameCount++;
 
