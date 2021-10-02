@@ -12,7 +12,7 @@ Full Name | UPI | Email
 | Habilash Kumar | hkmu724 | hkmu724@aucklanduni.ac.nz
 
 ## Installation
-You must installed:
+Configuration Required:
 - [Node.JS](https://www.npmjs.com/)
 
 Run the project locally:
