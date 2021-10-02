@@ -53,6 +53,27 @@ class Scene {
     window.addEventListener("keydown", (e) => this.onKeyDown(e), false);
     window.addEventListener("keyup", (e) => this.onKeyUp(e), false);
 
+    const groundTexture = new THREE.TextureLoader().load(
+      "./resources/dirt-texture.png"
+    );
+    groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+    groundTexture.repeat.set(10000, 10000);
+    groundTexture.anisotropy = 16;
+    groundTexture.encoding = THREE.sRGBEncoding;
+
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      map: groundTexture,
+    });
+
+    const mesh = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(10000, 10000),
+      groundMaterial
+    );
+    mesh.position.y = 0.0;
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = true;
+    this.scene.add(mesh);
+
     this.addLights();
     createEnvironment(this.scene);
 
