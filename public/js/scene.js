@@ -57,7 +57,7 @@ class Scene {
       "./resources/dirt-texture.png"
     );
     groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-    groundTexture.repeat.set(10000, 10000);
+    groundTexture.repeat.set(500, 500);
     groundTexture.anisotropy = 16;
     groundTexture.encoding = THREE.sRGBEncoding;
 
@@ -87,7 +87,8 @@ class Scene {
   // Lighting 💡
 
   addLights() {
-    this.scene.add(new THREE.AmbientLight(0xffffe6, 0.7));
+    const light = new THREE.AmbientLight(0xffffe6, 0.5);
+    this.scene.add(light);
   }
 
   //////////////////////////////////////////////////////////////////////
