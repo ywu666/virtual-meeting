@@ -93,8 +93,8 @@ function createEnvironment(scene, listener) {
     (gltf) => {
       const campFire = gltf.scene;
       // const animations = gltf.animations;
-      campFire.scale.set(0.7, 0.7, 0.7);
-      campFire.position.set(7, 1, -1);
+      campFire.scale.set(0.5, 0.5, 0.5);
+      campFire.position.set(7, 0.8, -0.8);
       // mixer = new THREE.AnimationMixer(campFire);
       // const action = mixer.clipAction(animations[0]);
       // action.play();
