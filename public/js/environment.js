@@ -82,7 +82,7 @@ function createEnvironment(scene, listener) {
     sound2.setBuffer(buffer);
     sound2.setLoop(true);
     sound2.setVolume(1);
-    sound2.setRefDistance(10);
+    sound2.setRolloffFactor(0.8);
     sound2.play();
   });
 
