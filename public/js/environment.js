@@ -7,7 +7,7 @@ const loader = new GLTFLoader();
 let mixer;
 var clock = new THREE.Clock();
 
-function createEnvironment(scene) {
+function createEnvironment(scene, listener) {
   // Background
   let materialArray = [];
   let texture_ft = new THREE.TextureLoader().load("./resources/divine_ft.jpg");
@@ -29,6 +29,20 @@ function createEnvironment(scene) {
   let skyboxGeo = new THREE.BoxGeometry(5000, 5000, 5000);
   let skybox = new THREE.Mesh(skyboxGeo, materialArray);
   scene.add(skybox);
+
+  const sound = new THREE.Audio(listener);
+  const sound2 = new THREE.PositionalAudio(listener);
+  const audioLoader = new THREE.AudioLoader();
+
+  audioLoader.load(
+    "./resources/mixkit-forest-at-night-1224.wav",
+    function (buffer) {
+      sound.setBuffer(buffer);
+      sound.setLoop(true);
+      sound.setVolume(0.2);
+      sound.play();
+    }
+  );
 
   // Campfire scene
   loader.load(
@@ -62,6 +76,17 @@ function createEnvironment(scene) {
     }
   );
 
+  audioLoader.load(
+    "./resources/mixkit-campfire-crackles-1330.wav",
+    function (buffer) {
+      sound2.setBuffer(buffer);
+      sound2.setLoop(true);
+      sound2.setVolume(1);
+      sound2.setRefDistance(10);
+      sound2.play();
+    }
+  );
+
   // Campfire
   loader.load(
     "./resources/campfire/scene.gltf",
@@ -74,6 +99,7 @@ function createEnvironment(scene) {
       // const action = mixer.clipAction(animations[0]);
       // action.play();
       scene.add(campFire);
+      campFire.add(sound2);
     },
     undefined,
     function (error) {

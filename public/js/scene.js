@@ -75,7 +75,7 @@ class Scene {
     this.scene.add(mesh);
 
     this.addLights();
-    createEnvironment(this.scene);
+    createEnvironment(this.scene, this.listener);
 
     // Start the loop
     this.frameCount = 0;
