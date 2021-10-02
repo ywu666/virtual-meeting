@@ -130,13 +130,13 @@ class Scene {
     group.position.set(3, 2, -0.5);
     group.add(_head);
     loadAvatar(_id, group);
+    updateClientAnimation(_id, "asdas");
 
     // add group to scene
     this.scene.add(group);
 
     clients[_id].group = group;
     clients[_id].head = _head;
-    // clients[_id].char = _char;
     clients[_id].desiredPosition = new THREE.Vector3();
     clients[_id].desiredRotation = new THREE.Quaternion();
     clients[_id].movementAlpha = 0;
@@ -151,7 +151,6 @@ class Scene {
     for (let _id in _clientProps) {
       // we'll update ourselves separately to avoid lag...
       if (_id != id) {
-        // animateWalk(_id);
         clients[_id].desiredPosition = new THREE.Vector3().fromArray(
           _clientProps[_id].position
         );
@@ -233,6 +232,10 @@ class Scene {
         this.playerGroup.quaternion._w,
       ],
     ];
+  }
+
+  getPlayerAnimation() {
+    return "Walking";
   }
 
   //////////////////////////////////////////////////////////////////////

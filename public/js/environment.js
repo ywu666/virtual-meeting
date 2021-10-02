@@ -4,10 +4,8 @@ import { GUI } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/libs/dat
 
 let myMesh, gui, actions, previousAction, activeAction;
 const loader = new GLTFLoader();
-let mixer;
 const envMixers = [];
 const avatarMixers = new Map();
-const mixers = [];
 var clock = new THREE.Clock();
 
 function createEnvironment(scene, listener) {
@@ -196,8 +194,10 @@ function createAnimationsGUI(avatarAnimations, mixer) {
 }
 
 function animateWalk(id) {
-  activeAction = avatarMixers.get(id).clipAction(avatarAnimations[10]);
-  activeAction.play();
+  if (avatarMixers.get(id)) {
+    activeAction = avatarMixers.get(id).clipAction(avatarAnimations[10]);
+    activeAction.play();
+  }
 }
 
 function animateIdle() {
@@ -213,9 +213,12 @@ function animateIdle() {
 
 function animate() {
   const delta = clock.getDelta();
-  if (typeof avatarMixers.get("self") !== "undefined") {
-    avatarMixers.get("self").update(delta);
-  }
+
+  avatarMixers.forEach(function (value, key) {
+    if (value !== "undefined") {
+      avatarMixers.get(key).update(delta);
+    }
+  });
   for (let m in envMixers) {
     // console.log(m);
     if (typeof m !== "undefined") {
@@ -223,10 +226,6 @@ function animate() {
       envMixers[m].update(delta);
     }
   }
-}
-
-function updateEnvironment(scene) {
-  // myMesh.position.x += 0.01;
 }
 
 window.createEnvironment = createEnvironment;
