@@ -87,13 +87,13 @@ let avatarAnimations;
 function loadAvatar(playerGroup) {
   let chars;
   loader.load(
-    "./resources/robot_expressive/scene.gltf",
+    "./resources/robot_expressive/scene.glb",
     (gltf) => {
       chars = gltf.scene;
       avatarAnimations = gltf.animations;
       mixer = new THREE.AnimationMixer(chars);
-      activeAction = mixer.clipAction(avatarAnimations[2]);
-      activeAction.play();
+      // activeAction = mixer.clipAction(avatarAnimations[2]);
+      // activeAction.play();
 
       if (typeof gui == "undefined") {
         createAnimationsGUI(avatarAnimations, mixer);
@@ -113,7 +113,7 @@ function loadAvatar(playerGroup) {
 
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_morph.html
 function createAnimationsGUI(avatarAnimations, mixer) {
-  const emotes = ["Idle", "Jump", "Yes", "No", "Wave", "ThumbsUp"];
+  const emotes = ["Idle", "Dance", "Jump", "Yes", "No"];
   gui = new GUI();
   actions = {};
 
@@ -122,7 +122,7 @@ function createAnimationsGUI(avatarAnimations, mixer) {
     const action = mixer.clipAction(clip);
     actions[clip.name] = action;
 
-    if (emotes.indexOf(clip.name) >= 0) {
+    if (emotes.indexOf(clip.name) >= 1) {
       action.clampWhenFinished = true;
       action.loop = THREE.LoopOnce;
     }
@@ -144,7 +144,7 @@ function createAnimationsGUI(avatarAnimations, mixer) {
     fadeToAction(api.state, 0.2);
   }
 
-  for (let i = 0; i < emotes.length; i++) {
+  for (let i = 1; i < emotes.length; i++) {
     createEmoteCallback(emotes[i]);
   }
   emoteFolder.open();
@@ -176,6 +176,8 @@ function animateIdle() {
     activeAction.getClip().name === "Walking"
   ) {
     activeAction.stop();
+    activeAction = actions["Idle"];
+    activeAction.play();
   }
 }
 
