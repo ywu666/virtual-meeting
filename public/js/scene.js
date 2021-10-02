@@ -130,7 +130,6 @@ class Scene {
     group.position.set(3, 2, -0.5);
     group.add(_head);
     loadAvatar(_id, group);
-    updateClientAnimation(_id, "asdas");
 
     // add group to scene
     this.scene.add(group);
