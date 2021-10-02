@@ -6,7 +6,7 @@
 Full Name | UPI | Email
 ------------ | ------------- | -----------
 | Yujia Wu | ywu660 | ywu660@aucklanduni.ac.nz
-| Yuxin Chen | che864 | che864@aucklanduni.ac.nz
+| Yuxin Chen | che864 | yche864@aucklanduni.ac.nz
 | Justin Rojos | jroj928 | jroj928@aucklanduni.ac.nz
 | Francis Lee | clee383 | clee383@aucklanduni.ac.nz
 | Habilash Kumar | hkmu724 | hkmu724@aucklanduni.ac.nz
