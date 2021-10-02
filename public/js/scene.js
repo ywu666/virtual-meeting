@@ -89,6 +89,10 @@ class Scene {
   addLights() {
     const light = new THREE.AmbientLight(0xffffe6, 0.5);
     this.scene.add(light);
+
+    const fireLight = new THREE.PointLight(0xff0000, 1, 100);
+    fireLight.position.set(7, 0.8, -0.8);
+    this.scene.add(fireLight);
   }
 
   //////////////////////////////////////////////////////////////////////
