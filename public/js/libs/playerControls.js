@@ -206,7 +206,7 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.sin(this.player.rotation.y);
       this.camera.position.z -=
         this.moveSpeed * Math.cos(this.player.rotation.y);
-      animateWalk();
+      animateWalk("self");
     }
 
     if (keyState[40] || keyState[83]) {
@@ -222,7 +222,7 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.sin(this.player.rotation.y);
       this.camera.position.z +=
         this.moveSpeed * Math.cos(this.player.rotation.y);
-      animateWalk();
+      animateWalk("self");
     }
 
     if (keyState[37] || keyState[65]) {
