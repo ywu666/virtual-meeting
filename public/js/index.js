@@ -58,7 +58,7 @@ window.onload = async () => {
 
   // finally create the threejs scene
   console.log("Creating three.js scene...");
-  glScene = new Scene(onPlayerMove);
+  glScene = new Scene(onPlayerMove, onPlayerAnimate);
 };
 ////////////////////////////////////////////////////////////////////////////////
 // Local media stream setup
@@ -150,6 +150,11 @@ function initSocketConnection() {
   // Update when one of the users moves in space
   socket.on("userPositions", (_clientProps) => {
     glScene.updateClientPositions(_clientProps);
+  });
+
+  // Update when one of the users is animating
+  socket.on("userAnimations", (_clientProps) => {
+    glScene.updateClientAnimations(_clientProps);
   });
 
   socket.on("call-made", async (data) => {
@@ -310,6 +315,10 @@ function enableOutgoingStream() {
 function onPlayerMove() {
   // console.log('Sending movement update to server.');
   socket.emit("move", glScene.getPlayerPosition());
+}
+
+function onPlayerAnimate() {
+  socket.emit("animate", glScene.getPlayerAnimation());
 }
 
 //////////////////////////////////////////////////////////////////////

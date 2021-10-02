@@ -192,6 +192,7 @@ function createAnimationsGUI(avatarAnimations, mixer) {
       .play();
   }
 }
+// Animations for self
 
 function animateWalk(id) {
   if (avatarMixers.get(id)) {
@@ -211,14 +212,70 @@ function animateIdle() {
   }
 }
 
+// Animations for clients
+
+function animateClientWalk(id) {
+  if (avatarMixers.get(id)) {
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[10]);
+    action.play();
+  }
+}
+
+function animateClientIdle(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[2]);
+    action.play();
+  }
+}
+
+function animateClientJump(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[3]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animateClientDance(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[0]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animateClientYes(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[13]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animateClientNo(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[4]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
 function animate() {
   const delta = clock.getDelta();
 
+  // Animate clients
   avatarMixers.forEach(function (value, key) {
     if (value !== "undefined") {
       avatarMixers.get(key).update(delta);
     }
   });
+
+  // Animate environment
   for (let m in envMixers) {
     // console.log(m);
     if (typeof m !== "undefined") {
@@ -228,8 +285,26 @@ function animate() {
   }
 }
 
+// Get own action
+function getAction() {
+  if (activeAction && activeAction.getClip()) {
+    return activeAction.getClip().name;
+  }
+  return "Idle";
+}
+
 window.createEnvironment = createEnvironment;
 window.loadAvatar = loadAvatar;
+
 window.animateWalk = animateWalk;
 window.animateIdle = animateIdle;
+
+window.animateClientWalk = animateClientWalk;
+window.animateClientIdle = animateClientIdle;
+window.animateClientJump = animateClientJump;
+window.animateClientDance = animateClientDance;
+window.animateClientYes = animateClientYes;
+window.animateClientNo = animateClientNo;
+
 window.animate = animate;
+window.getAction = getAction;

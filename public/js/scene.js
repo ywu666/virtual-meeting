@@ -6,8 +6,9 @@
  *
  */
 class Scene {
-  constructor(_movementCallback) {
+  constructor(_movementCallback, _animationCallback) {
     this.movementCallback = _movementCallback;
+    this.animationCallback = _animationCallback;
 
     //THREE scene
     this.scene = new THREE.Scene();
@@ -136,6 +137,7 @@ class Scene {
 
     clients[_id].group = group;
     clients[_id].head = _head;
+    clients[_id].animation = "Idle";
     clients[_id].desiredPosition = new THREE.Vector3();
     clients[_id].desiredRotation = new THREE.Quaternion();
     clients[_id].movementAlpha = 0;
@@ -156,6 +158,30 @@ class Scene {
         clients[_id].desiredRotation = new THREE.Quaternion().fromArray(
           _clientProps[_id].rotation
         );
+      }
+    }
+  }
+
+  updateClientAnimations(_clientProps) {
+    for (let _id in _clientProps) {
+      // we'll update ourselves separately to avoid lag...
+      if (_id != id) {
+        if (clients[_id].animation !== _clientProps[_id].animation) {
+          if (_clientProps[_id].animation == "Idle") {
+            animateClientIdle(_id);
+          } else if (_clientProps[_id].animation == "Walking") {
+            animateClientWalk(_id);
+          } else if (_clientProps[_id].animation == "Jump") {
+            animateClientJump(_id);
+          } else if (_clientProps[_id].animation == "Dance") {
+            animateClientDance(_id);
+          } else if (_clientProps[_id].animation == "Yes") {
+            animateClientYes(_id);
+          } else if (_clientProps[_id].animation == "No") {
+            animateClientNo(_id);
+          }
+        }
+        clients[_id].animation = _clientProps[_id].animation;
       }
     }
   }
@@ -233,8 +259,9 @@ class Scene {
     ];
   }
 
+  // what animation it's doing right now.
   getPlayerAnimation() {
-    return "Walking";
+    return getAction();
   }
 
   //////////////////////////////////////////////////////////////////////
@@ -251,6 +278,7 @@ class Scene {
     if (this.frameCount % 25 === 0) {
       this.updateClientVolumes();
       this.movementCallback();
+      this.animationCallback();
     }
 
     if (this.camera.position.y < 2) {
