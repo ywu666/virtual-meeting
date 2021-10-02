@@ -53,8 +53,29 @@ class Scene {
     window.addEventListener("keydown", (e) => this.onKeyDown(e), false);
     window.addEventListener("keyup", (e) => this.onKeyUp(e), false);
 
+    const groundTexture = new THREE.TextureLoader().load(
+      "./resources/dirt-texture.png"
+    );
+    groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+    groundTexture.repeat.set(500, 500);
+    groundTexture.anisotropy = 16;
+    groundTexture.encoding = THREE.sRGBEncoding;
+
+    const groundMaterial = new THREE.MeshStandardMaterial({
+      map: groundTexture,
+    });
+
+    const mesh = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(10000, 10000),
+      groundMaterial
+    );
+    mesh.position.y = 0.0;
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = true;
+    this.scene.add(mesh);
+
     this.addLights();
-    createEnvironment(this.scene);
+    createEnvironment(this.scene, this.listener);
 
     // Start the loop
     this.frameCount = 0;
@@ -66,7 +87,12 @@ class Scene {
   // Lighting 💡
 
   addLights() {
-    this.scene.add(new THREE.AmbientLight(0xffffe6, 0.7));
+    const light = new THREE.AmbientLight(0xffffe6, 0.5);
+    this.scene.add(light);
+
+    const fireLight = new THREE.PointLight(0xff0000, 1, 100);
+    fireLight.position.set(7, 0.8, -0.8);
+    this.scene.add(fireLight);
   }
 
   //////////////////////////////////////////////////////////////////////
