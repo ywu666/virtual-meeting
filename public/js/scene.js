@@ -83,7 +83,7 @@ class Scene {
     this.playerGroup = new THREE.Group();
     this.playerGroup.position.set(3, 2, -0.5);
     this.playerGroup.add(_head);
-    loadAvatar(this.playerGroup);
+    loadAvatar("self", this.playerGroup);
 
     // add group to scene
     this.scene.add(this.playerGroup);
@@ -103,7 +103,7 @@ class Scene {
     var group = new THREE.Group();
     group.position.set(3, 2, -0.5);
     group.add(_head);
-    loadAvatar(group);
+    loadAvatar(_id, group);
 
     // add group to scene
     this.scene.add(group);

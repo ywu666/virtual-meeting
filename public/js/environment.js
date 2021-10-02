@@ -5,6 +5,9 @@ import { GUI } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/libs/dat
 let myMesh, gui, actions, previousAction, activeAction;
 const loader = new GLTFLoader();
 let mixer;
+const envMixers = [];
+const avatarMixers = new Map();
+const mixers = [];
 var clock = new THREE.Clock();
 
 function createEnvironment(scene) {
@@ -67,12 +70,13 @@ function createEnvironment(scene) {
     "./resources/campfire/scene.gltf",
     (gltf) => {
       const campFire = gltf.scene;
-      // const animations = gltf.animations;
+      const animations = gltf.animations;
       campFire.scale.set(0.7, 0.7, 0.7);
       campFire.position.set(7, 1, -1);
-      // mixer = new THREE.AnimationMixer(campFire);
-      // const action = mixer.clipAction(animations[0]);
-      // action.play();
+      const mixer = new THREE.AnimationMixer(campFire);
+      const action = mixer.clipAction(animations[0]);
+      action.play();
+      envMixers.push(mixer);
       scene.add(campFire);
     },
     undefined,
@@ -84,20 +88,22 @@ function createEnvironment(scene) {
 
 let avatarAnimations;
 
-function loadAvatar(playerGroup) {
+function loadAvatar(id, playerGroup) {
   let chars;
   loader.load(
     "./resources/robot_expressive/scene.glb",
     (gltf) => {
       chars = gltf.scene;
       avatarAnimations = gltf.animations;
-      mixer = new THREE.AnimationMixer(chars);
+      const mixer = new THREE.AnimationMixer(chars);
       // activeAction = mixer.clipAction(avatarAnimations[2]);
       // activeAction.play();
 
       if (typeof gui == "undefined") {
         createAnimationsGUI(avatarAnimations, mixer);
       }
+
+      avatarMixers.set(id, mixer);
 
       chars.scale.set(0.3, 0.3, 0.3);
       chars.position.set(0, -2, 0);
@@ -166,7 +172,7 @@ function createAnimationsGUI(avatarAnimations, mixer) {
 }
 
 function animateWalk() {
-  activeAction = mixer.clipAction(avatarAnimations[10]);
+  activeAction = avatarMixers.get("self").clipAction(avatarAnimations[10]);
   activeAction.play();
 }
 
@@ -183,8 +189,15 @@ function animateIdle() {
 
 function animate() {
   const delta = clock.getDelta();
-  if (typeof mixer !== "undefined") {
-    mixer.update(delta);
+  if (typeof avatarMixers.get("self") !== "undefined") {
+    avatarMixers.get("self").update(delta);
+  }
+  for (let m in envMixers) {
+    // console.log(m);
+    if (typeof m !== "undefined") {
+      // console.log("Campfire animation");
+      envMixers[m].update(delta);
+    }
   }
 }
 
