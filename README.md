@@ -1,6 +1,7 @@
 # Virtual Campfire Meeting
 - **Team:** Group 10
 - **Virtual Campfire Web Link (up-to-date with master)**: https://virtual-campfire-meeting.herokuapp.com/
+- **Stable Version:** The newest version of master
 - Please contact one of us if you are having trouble to access the application via link above.
 
 Full Name | UPI | Email
@@ -13,14 +14,14 @@ Full Name | UPI | Email
 
 ## To run
 
-Visit: https://virtual-campfire-meeting.herokuapp.com/
-
-Give browser permission to access video and audio source (make sure your video and audio sources are set up properly in your browser).  
-May take a while to load.
+### Visit 
+- https://virtual-campfire-meeting.herokuapp.com/
+- Give browser permission to access video and audio source (make sure your video and audio sources are set up properly in your browser).  
+- May take a while to load.
 
 OR
 
-**Run the project locally**  
+### Run the project locally
 You must have installed:
 - [Node.JS](https://www.npmjs.com/)
 
