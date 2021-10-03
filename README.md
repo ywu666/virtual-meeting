@@ -40,3 +40,4 @@ Virtual Campfire Meeting is a web-based, 3D, engaging, virtual world meeting app
 -  Loading avatars
 -  Avatars animations
 -  Communication between avatars
+-  Improve Engagement by adding sound & light effects
