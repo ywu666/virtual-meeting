@@ -58,9 +58,11 @@ Virtual Campfire Meeting is a web-based, 3D, engaging, virtual world meeting app
   - Mouse camera movement (zoom/rotation)
 - Communication between avatars:
   - Proximity voice chat
-  - Proximity audio chat via SFX
+  - Proximity audio chat
 - Improve Engagement:
-  - Campfire sound effects
+  - Sound effects via SFX:
+      - Forest sound effects
+      - Campfire sound effets
   - Campfire light effects
 
 ## Difference with Project Plan 
