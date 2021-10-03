@@ -47,7 +47,13 @@ function main() {
   setInterval(function () {
     // update all clients of positions
     io.sockets.emit("userPositions", clients);
+    io.sockets.emit("userAnimations", clients);
   }, 10);
+
+  setInterval(function () {
+    // update all clients of animations
+    io.sockets.emit("userAnimations", clients);
+  }, 1000);
 }
 
 main();
@@ -81,6 +87,9 @@ function setupSocketServer() {
     // also give the client all existing clients positions:
     client.emit("userPositions", clients);
 
+    // also give the client all existing client animations:
+    client.emit("userAnimations", clients);
+
     //Update everyone that the number of users has changed
     io.sockets.emit(
       "newUserConnected",
@@ -94,6 +103,13 @@ function setupSocketServer() {
       if (clients[client.id]) {
         clients[client.id].position = data[0];
         clients[client.id].rotation = data[1];
+      }
+    });
+
+    // whenever the client does an interaction, update their interaction in the clients object
+    client.on("animate", (data) => {
+      if (clients[client.id]) {
+        clients[client.id].animation = data;
       }
     });
 

@@ -206,7 +206,7 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.sin(this.player.rotation.y);
       this.camera.position.z -=
         this.moveSpeed * Math.cos(this.player.rotation.y);
-      animateWalk();
+      animateWalk("self");
     }
 
     if (keyState[40] || keyState[83]) {
@@ -222,7 +222,7 @@ THREE.PlayerControls = function (camera, player, domElement) {
         this.moveSpeed * Math.sin(this.player.rotation.y);
       this.camera.position.z +=
         this.moveSpeed * Math.cos(this.player.rotation.y);
-      animateWalk();
+      animateWalk("self");
     }
 
     if (keyState[37] || keyState[65]) {
@@ -237,35 +237,6 @@ THREE.PlayerControls = function (camera, player, domElement) {
       playerIsMoving = true;
 
       this.player.rotation.y -= this.turnSpeed;
-    }
-    if (keyState[81]) {
-      // 'q' - strafe left
-      playerIsMoving = true;
-
-      this.player.position.x -=
-        this.moveSpeed * Math.cos(this.player.rotation.y);
-      this.player.position.z +=
-        this.moveSpeed * Math.sin(this.player.rotation.y);
-
-      this.camera.position.x -=
-        this.moveSpeed * Math.cos(this.player.rotation.y);
-      this.camera.position.z +=
-        this.moveSpeed * Math.sin(this.player.rotation.y);
-    }
-
-    if (keyState[69]) {
-      // 'e' - strage right
-      playerIsMoving = true;
-
-      this.player.position.x +=
-        this.moveSpeed * Math.cos(this.player.rotation.y);
-      this.player.position.z -=
-        this.moveSpeed * Math.sin(this.player.rotation.y);
-
-      this.camera.position.x +=
-        this.moveSpeed * Math.cos(this.player.rotation.y);
-      this.camera.position.z -=
-        this.moveSpeed * Math.sin(this.player.rotation.y);
     }
 
     if (Object.values(keyState).every((x) => x === false)) {

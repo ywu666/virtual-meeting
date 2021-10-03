@@ -4,7 +4,8 @@ import { GUI } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/libs/dat
 
 let myMesh, gui, actions, previousAction, activeAction;
 const loader = new GLTFLoader();
-let mixer;
+const envMixers = [];
+const avatarMixers = new Map();
 var clock = new THREE.Clock();
 
 function createEnvironment(scene, listener) {
@@ -34,15 +35,14 @@ function createEnvironment(scene, listener) {
   const sound2 = new THREE.PositionalAudio(listener);
   const audioLoader = new THREE.AudioLoader();
 
-  audioLoader.load(
-    "./resources/mixkit-forest-at-night-1224.wav",
-    function (buffer) {
-      sound.setBuffer(buffer);
-      sound.setLoop(true);
-      sound.setVolume(0.04);
-      sound.play();
-    }
-  );
+  audioLoader.load("./resources/mixkit-forest-at-night-1224.wav", function (
+    buffer
+  ) {
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
+    sound.setVolume(0.04);
+    sound.play();
+  });
 
   // Campfire scene
   loader.load(
@@ -76,28 +76,28 @@ function createEnvironment(scene, listener) {
     }
   );
 
-  audioLoader.load(
-    "./resources/mixkit-campfire-crackles-1330.wav",
-    function (buffer) {
-      sound2.setBuffer(buffer);
-      sound2.setLoop(true);
-      sound2.setVolume(1);
-      sound2.setRefDistance(10);
-      sound2.play();
-    }
-  );
+  audioLoader.load("./resources/mixkit-campfire-crackles-1330.wav", function (
+    buffer
+  ) {
+    sound2.setBuffer(buffer);
+    sound2.setLoop(true);
+    sound2.setVolume(1);
+    sound2.setRolloffFactor(0.8);
+    sound2.play();
+  });
 
   // Campfire
   loader.load(
     "./resources/campfire/scene.gltf",
     (gltf) => {
       const campFire = gltf.scene;
-      // const animations = gltf.animations;
+      const animations = gltf.animations;
       campFire.scale.set(0.5, 0.5, 0.5);
       campFire.position.set(7, 0.8, -0.8);
-      // mixer = new THREE.AnimationMixer(campFire);
-      // const action = mixer.clipAction(animations[0]);
-      // action.play();
+      const mixer = new THREE.AnimationMixer(campFire);
+      const action = mixer.clipAction(animations[0]);
+      action.play();
+      envMixers.push(mixer);
       scene.add(campFire);
       campFire.add(sound2);
     },
@@ -110,20 +110,22 @@ function createEnvironment(scene, listener) {
 
 let avatarAnimations;
 
-function loadAvatar(playerGroup) {
+function loadAvatar(id, playerGroup) {
   let chars;
   loader.load(
     "./resources/robot_expressive/scene.glb",
     (gltf) => {
       chars = gltf.scene;
       avatarAnimations = gltf.animations;
-      mixer = new THREE.AnimationMixer(chars);
+      const mixer = new THREE.AnimationMixer(chars);
       // activeAction = mixer.clipAction(avatarAnimations[2]);
       // activeAction.play();
 
       if (typeof gui == "undefined") {
         createAnimationsGUI(avatarAnimations, mixer);
       }
+
+      avatarMixers.set(id, mixer);
 
       chars.scale.set(0.3, 0.3, 0.3);
       chars.position.set(0, -2, 0);
@@ -190,10 +192,13 @@ function createAnimationsGUI(avatarAnimations, mixer) {
       .play();
   }
 }
+// Animations for self
 
-function animateWalk() {
-  activeAction = mixer.clipAction(avatarAnimations[10]);
-  activeAction.play();
+function animateWalk(id) {
+  if (avatarMixers.get(id)) {
+    activeAction = avatarMixers.get(id).clipAction(avatarAnimations[10]);
+    activeAction.play();
+  }
 }
 
 function animateIdle() {
@@ -207,19 +212,99 @@ function animateIdle() {
   }
 }
 
-function animate() {
-  const delta = clock.getDelta();
-  if (typeof mixer !== "undefined") {
-    mixer.update(delta);
+// Animations for clients
+
+function animateClientWalk(id) {
+  if (avatarMixers.get(id)) {
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[10]);
+    action.play();
   }
 }
 
-function updateEnvironment(scene) {
-  // myMesh.position.x += 0.01;
+function animateClientIdle(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[2]);
+    action.play();
+  }
+}
+
+function animateClientJump(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[3]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animateClientDance(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[0]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animateClientYes(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[13]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animateClientNo(id) {
+  if (avatarMixers.get(id)) {
+    avatarMixers.get(id).stopAllAction();
+    const action = avatarMixers.get(id).clipAction(avatarAnimations[4]);
+    action.loop = THREE.LoopOnce;
+    action.play();
+  }
+}
+
+function animate() {
+  const delta = clock.getDelta();
+
+  // Animate clients
+  avatarMixers.forEach(function (value, key) {
+    if (value !== "undefined") {
+      avatarMixers.get(key).update(delta);
+    }
+  });
+
+  // Animate environment
+  for (let m in envMixers) {
+    // console.log(m);
+    if (typeof m !== "undefined") {
+      // console.log("Campfire animation");
+      envMixers[m].update(delta);
+    }
+  }
+}
+
+// Get own action
+function getAction() {
+  if (activeAction && activeAction.getClip()) {
+    return activeAction.getClip().name;
+  }
+  return "Idle";
 }
 
 window.createEnvironment = createEnvironment;
 window.loadAvatar = loadAvatar;
+
 window.animateWalk = animateWalk;
 window.animateIdle = animateIdle;
+
+window.animateClientWalk = animateClientWalk;
+window.animateClientIdle = animateClientIdle;
+window.animateClientJump = animateClientJump;
+window.animateClientDance = animateClientDance;
+window.animateClientYes = animateClientYes;
+window.animateClientNo = animateClientNo;
+
 window.animate = animate;
+window.getAction = getAction;
