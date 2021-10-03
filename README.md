@@ -51,14 +51,14 @@ Virtual Campfire Meeting is a web-based, 3D, engaging, virtual world meeting app
 - Avatars animations via Interaction UI:
   - Dance
   - Jump
-  - Node YES/NO
+  - Nod YES/NO
 - Avatars movement:
   - WASD movement
   - Camera following movement
   - Mouse camera movement (zoom/rotation)
 - Communication between avatars:
   - Proximity voice chat
-  - Proximity audio chat
+  - Proximity SFX
 - Improve Engagement:
   - Sound effects via SFX:
       - Forest sound effects
@@ -71,7 +71,7 @@ Virtual Campfire Meeting is a web-based, 3D, engaging, virtual world meeting app
 - [x] Add animations.actions to Avatars:
   - [x] Dance
   - [x] Jump
-  - [x] Node YES/NO
+  - [x] Nod YES/NO
   - [ ] Wave
 - [x] Avatars hangout virtual world
 - [x] Third person camera for avatars
