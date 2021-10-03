@@ -25,10 +25,10 @@ You must have installed:
 - [Node.JS](https://www.npmjs.com/)
 
 then
-
 - git clone: Install the source code 
 - npm install : Install all the necessary libraries
 - npm start: Run the project locally
+
 ```
 git clone <this-repo>   
 npm install   
@@ -45,11 +45,39 @@ Virtual Campfire Meeting is a web-based, 3D, engaging, virtual world meeting app
 - **Deployment:** [Heroku](https://devcenter.heroku.com/)
 
 ## General Functionality
--  Loading virtual campfire world
--  Loading avatars
--  Avatars animations
--  Communication between avatars
--  Improve Engagement by adding sound & light effects
+-  Building virtual campfire world
+-  Adding avatars to virutal world 
+- Avatars animations via Interaction UI:
+  - Dance
+  - Jump
+  - Node YES/NO
+- Avatars movement:
+  - WASD movement
+  - Camera following movement
+  - Mouse camera movement (zoom/rotation)
+- Communication between avatars:
+  - Proximity voice chat
+  - Proximity audio chat via SFX
+- Improve Engagement:
+  - Campfire sound effects
+  - Campfire light effects
+
+## Difference with Project Plan 
+- [x] Building virtul campfire world
+- [x] Adding multiple avatars to the virutal world 
+- [x] Add animations.actions to Avatars:
+  - [x] Dance
+  - [x] Jump
+  - [x] Node YES/NO
+  - [ ] Wave
+- [x] Avatars hangout virtual world
+- [x] Third person camera for avatars
+- [x] Campfire sound effects
+- [x] Campfire light effects
+- [x] Avatars communicates via video chat
+- [x] Avatars communicates via audio chat
+- [ ] Avatars communicates via messages 
+- [ ] Sky light effects
 
 ## Credits
 This was built on top of a webrtc template by AidanNelson: https://github.com/AidanNelson/threejs-webrtc
