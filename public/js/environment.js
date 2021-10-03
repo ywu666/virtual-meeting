@@ -46,7 +46,7 @@ function createEnvironment(scene, listener) {
 
   // Campfire scene
   loader.load(
-    "./resources/forest_nofire/scene.gltf",
+    "./resources/forest_nofire/scene.glb",
     function (gltf) {
       const camp = gltf.scene;
       const fireArray = [
